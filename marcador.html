@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: transparent;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+        }
+        .scoreboard {
+            font-size: 60px;
+            color: white;
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            margin-top: 50px;
+        }
+        .score {
+            font-size: 80px;
+            width: 100px;
+            height: 100px;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 10px;
+            cursor: pointer; /* Cambiar el cursor a mano para indicar que es clickeable */
+        }
+        #teamA {
+            background-color: #00ff00; /* Cuadrado verde para Smilo */
+        }
+        #teamB {
+            background-color: #333333; /* Cuadrado gris oscuro para Otro */
+        }
+    </style>
+    <title>Marcador de Voleibol</title>
+</head>
+<body>
+    <div class="scoreboard">
+        <div class="score" id="scoreA">0</div>
+        <div class="score" id="scoreB">0</div>
+    </div>
+
+    <script>
+        let scoreA = 0;
+        let scoreB = 0;
+
+        function incrementScore(team) {
+            if (team === 'A') {
+                scoreA++;
+                document.getElementById('scoreA').innerText = scoreA;
+            } else if (team === 'B') {
+                scoreB++;
+                document.getElementById('scoreB').innerText = scoreB;
+            }
+        }
+        
+        // Exponer la función para ser llamada desde un servicio externo
+        window.incrementScore = incrementScore;
+    </script>
+</body>
+</html>
