@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Marcador de Voleibol</title>
+    
+    <!-- Permitir carga en iframes -->
+    <meta http-equiv="Content-Security-Policy" content="frame-ancestors *;">
+    <meta http-equiv="X-Frame-Options" content="ALLOWALL">
+    
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -18,273 +23,32 @@
             align-items: center;
             color: white;
         }
-        
-        h1 {
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        .sets-display {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        .sets-label {
-            font-size: 1.25rem;
-        }
-        
-        .sets-scores {
-            display: flex;
-            gap: 2rem;
-        }
-        
-        .set-score {
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-        
-        .scoreboard {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-        
-        .score-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .score-card {
-            width: 7rem;
-            height: 7rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-radius: 0.75rem;
-            cursor: pointer;
-            position: relative;
-        }
-        
-        .score-value {
-            font-size: 4rem;
-            font-weight: bold;
-            user-select: none;
-        }
-        
-        .team-a {
-            background-color: #00ff00;
-            color: black;
-        }
-        
-        .team-b {
-            background-color: #333333;
-            color: white;
-        }
-        
-        .decrement-btn {
-            padding: 0.25rem 0.5rem;
-            font-size: 0.875rem;
-            background-color: #1f2937;
-            color: white;
-            border: 1px solid #374151;
-            border-radius: 0.25rem;
-            cursor: pointer;
-            margin-top: 0.5rem;
-        }
-        
-        .decrement-btn:hover {
-            background-color: #374151;
-        }
-        
-        .controls {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        
-        .reset-points-btn {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1rem;
-            background-color: #f97316;
-            color: white;
-            border: none;
-            border-radius: 0.25rem;
-            cursor: pointer;
-            font-size: 0.875rem;
-        }
-        
-        .reset-points-btn:hover {
-            background-color: #ea580c;
-        }
-        
-        .reset-all-btn {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1rem;
-            background-color: #ef4444;
-            color: white;
-            border: none;
-            border-radius: 0.25rem;
-            cursor: pointer;
-            font-size: 0.875rem;
-        }
-        
-        .reset-all-btn:hover {
-            background-color: #dc2626;
-        }
-        
-        @media (min-width: 768px) {
-            h1 {
-                font-size: 2.25rem;
-            }
-            
-            .score-card {
-                width: 9rem;
-                height: 9rem;
-            }
-            
-            .score-value {
-                font-size: 5rem;
-            }
-            
-            .scoreboard {
-                gap: 4rem;
-            }
-        }
+        h1 { font-size: 2rem; margin-bottom: 1.5rem; }
+        .scoreboard { display: flex; gap: 2rem; margin-bottom: 2rem; }
+        .score-card { width: 7rem; height: 7rem; display: flex; justify-content: center; align-items: center; border-radius: 0.75rem; cursor: pointer; }
+        .team-a { background-color: #00ff00; color: black; }
+        .team-b { background-color: #333333; color: white; }
     </style>
 </head>
 <body>
     <h1>Marcador de Voleibol</h1>
     
-    <!-- Sets display -->
-    <div class="sets-display">
-        <div class="sets-label">Sets:</div>
-        <div class="sets-scores">
-            <div class="set-score" id="setsA">0</div>
-            <div class="set-score" id="setsB">0</div>
-        </div>
-    </div>
-    
-    <!-- Main scoreboard -->
+    <!-- Scoreboard -->
     <div class="scoreboard">
-        <div class="score-container">
-            <div class="score-card team-a" id="scoreCardA">
-                <span class="score-value" id="scoreA">0</span>
-            </div>
-            <button class="decrement-btn" id="decrementA">-1</button>
-        </div>
-        
-        <div class="score-container">
-            <div class="score-card team-b" id="scoreCardB">
-                <span class="score-value" id="scoreB">0</span>
-            </div>
-            <button class="decrement-btn" id="decrementB">-1</button>
-        </div>
+        <div class="score-card team-a" id="scoreCardA">0</div>
+        <div class="score-card team-b" id="scoreCardB">0</div>
     </div>
     
-    <!-- Controls -->
-    <div class="controls">
-        <button class="reset-points-btn" id="resetPoints">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M3 2v6h6"></path>
-                <path d="M3 13a9 9 0 1 0 3-7.7L3 8"></path>
-            </svg>
-            Reiniciar Puntos
-        </button>
-        <button class="reset-all-btn" id="resetAll">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M3 2v6h6"></path>
-                <path d="M3 13a9 9 0 1 0 3-7.7L3 8"></path>
-            </svg>
-            Reiniciar Todo
-        </button>
-    </div>
+    <!-- Prueba de iframe -->
+    <iframe src="https://marcador-silk.vercel.app/" width="600" height="400"></iframe>
     
     <script>
-        // State variables
-        let scoreA = 0;
-        let scoreB = 0;
-        let setsA = 0;
-        let setsB = 0;
-        
-        // DOM elements
-        const scoreAElement = document.getElementById('scoreA');
-        const scoreBElement = document.getElementById('scoreB');
-        const setsAElement = document.getElementById('setsA');
-        const setsBElement = document.getElementById('setsB');
-        const scoreCardA = document.getElementById('scoreCardA');
-        const scoreCardB = document.getElementById('scoreCardB');
-        const decrementABtn = document.getElementById('decrementA');
-        const decrementBBtn = document.getElementById('decrementB');
-        const resetPointsBtn = document.getElementById('resetPoints');
-        const resetAllBtn = document.getElementById('resetAll');
-        
-        // Functions
-        function incrementScore(team) {
-            if (team === 'A') {
-                scoreA++;
-                scoreAElement.textContent = scoreA;
-                
-                // Check for set win (typically 25 points with 2-point lead)
-                if (scoreA >= 25 && scoreA - scoreB >= 2) {
-                    setsA++;
-                    setsAElement.textContent = setsA;
-                    resetScores();
-                }
-            } else {
-                scoreB++;
-                scoreBElement.textContent = scoreB;
-                
-                // Check for set win (typically 25 points with 2-point lead)
-                if (scoreB >= 25 && scoreB - scoreA >= 2) {
-                    setsB++;
-                    setsBElement.textContent = setsB;
-                    resetScores();
-                }
-            }
-        }
-        
-        function decrementScore(team) {
-            if (team === 'A' && scoreA > 0) {
-                scoreA--;
-                scoreAElement.textContent = scoreA;
-            } else if (team === 'B' && scoreB > 0) {
-                scoreB--;
-                scoreBElement.textContent = scoreB;
-            }
-        }
-        
-        function resetScores() {
-            scoreA = 0;
-            scoreB = 0;
-            scoreAElement.textContent = scoreA;
-            scoreBElement.textContent = scoreB;
-        }
-        
-        function resetAll() {
-            resetScores();
-            setsA = 0;
-            setsB = 0;
-            setsAElement.textContent = setsA;
-            setsBElement.textContent = setsB;
-        }
-        
-        // Event listeners
-        scoreCardA.addEventListener('click', () => incrementScore('A'));
-        scoreCardB.addEventListener('click', () => incrementScore('B'));
-        decrementABtn.addEventListener('click', () => decrementScore('A'));
-        decrementBBtn.addEventListener('click', () => decrementScore('B'));
-        resetPointsBtn.addEventListener('click', resetScores);
-        resetAllBtn.addEventListener('click', resetAll);
+        document.getElementById('scoreCardA').addEventListener('click', function() {
+            this.textContent = parseInt(this.textContent) + 1;
+        });
+        document.getElementById('scoreCardB').addEventListener('click', function() {
+            this.textContent = parseInt(this.textContent) + 1;
+        });
     </script>
 </body>
 </html>
